@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask URL Shortener</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f4f7f6; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        input[type="text"] { width: 70%; padding: 10px; margin-right: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; }
+        .success { background: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔗 URL Shortener</h1>
+        <form method="POST">
+            <input type="text" name="url_input" placeholder="Paste your long URL here..." required>
+            <button type="submit">Shorten</button>
+        </form>
+
+        {% if result %}
+        <div class="success">
+            <strong>Generated:</strong> <a href="{{ result }}" target="_blank">{{ result }}</a>
+        </div>
+        {% endif %}
+
+        <h3>Saved Links (Database Dump)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Short Code</th>
+                    <th>Long URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for code, long_url in database.items() %}
+                <tr>
+                    <td><a href="/{{ code }}"><strong>{{ code }}</strong></a></td>
+                    <td>{{ long_url }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
